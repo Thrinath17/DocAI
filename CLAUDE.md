@@ -12,13 +12,19 @@ Upload a financial document (PDF/image) → receive structured JSON of all extra
 | `plan.md` | Full implementation plan — stack choices, folder structure, LLM prompt strategy, verification steps |
 | `tasks.md` | All 35 tasks across 7 phases with status. Start here to know what's done and what's next |
 | `architecture.md` | Mermaid architecture diagram — open in Obsidian to render |
+| `test.md` | **After every phase implementation, run the tests described here before marking any task Done** |
+
+---
+
+## Testing Rule
+
+**After completing every phase, read `test.md` and run all tests described there before marking tasks Done.**
 
 ---
 
 ## Project Location
 
 Code goes in: `~/Projects/DocAI/financial-extractor/`
-This folder does not exist yet — implementation starts by creating it.
 
 ---
 

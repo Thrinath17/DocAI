@@ -1,0 +1,10 @@
+.venv/
+uploads/
+results/
+jobs.db
+*.pyc
+__pycache__/
+.env
+ui/node_modules/
+ui/dist/
+tests/

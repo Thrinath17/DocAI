@@ -1,0 +1,38 @@
+from contextlib import asynccontextmanager
+import logging
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.queue.job_store import init_db
+from app.storage.paths import ensure_dirs
+from app.api.upload import router as upload_router
+
+logging.basicConfig(level=logging.INFO)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    ensure_dirs()
+    init_db()
+    yield
+    # Shutdown — nothing to tear down yet
+
+
+app = FastAPI(title="Financial Extractor", version="0.1.0", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    # Allow the React dev server (Phase 7) to call the API
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(upload_router)
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

@@ -9,18 +9,18 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 1 | Create project directory | Scaffold `financial-extractor/` folder structure | Pending |
-| 1a | Create `.gitignore` | Ignore `.env`, `uploads/`, `results/`, `__pycache__/`, `.venv/`, `*.pyc` — security-critical before any commit | Pending |
-| 1b | Set up Python virtual environment | `python3.11 -m venv .venv` inside `financial-extractor/` — needed to run locally without Docker | Pending |
-| 2 | Set up `pyproject.toml` | Define Python dependencies: fastapi, uvicorn, docling, ollama, rq, redis, pydantic-settings, python-multipart | Pending |
-| 3 | Create `.env.example` | Template env file with OLLAMA_MODEL, OLLAMA_BASE_URL, REDIS_URL, UPLOAD_DIR, RESULTS_DIR | Pending |
-| 4 | Create `config.py` | Load all settings from env vars using pydantic-settings | Pending |
-| 5 | Create `main.py` | FastAPI app with lifespan, health check `GET /health`, and CORS middleware (allows React dev server on port 5173 to call API on port 8000) | Pending |
-| 6 | Create `job_store.py` | SQLite job table: id, status, file_path, result_path, error, created_at, updated_at | Pending |
-| 7 | Create `file_store.py` | Save uploaded files and result JSONs to local disk | Pending |
-| 8 | Create upload endpoint | `POST /upload` — validate MIME type (PDF/JPG/PNG), save file, create job, enqueue task | Pending |
-| 9 | Create RQ worker skeleton | Worker that picks up jobs, logs job ID, marks complete — no pipeline yet | Pending |
-| 10 | Create `docker-compose.yml` | **3 services only: api, worker, redis** — Ollama stays native on host (already installed with model). Worker calls Ollama at `http://host.docker.internal:11434` via `OLLAMA_BASE_URL` env var | Pending |
+| 1 | Create project directory | Scaffold `financial-extractor/` folder structure | Done |
+| 1a | Create `.gitignore` | Ignore `.env`, `uploads/`, `results/`, `__pycache__/`, `.venv/`, `*.pyc` — security-critical before any commit | Done |
+| 1b | Set up Python virtual environment | `python3.11 -m venv .venv` inside `financial-extractor/` — needed to run locally without Docker | Done |
+| 2 | Set up `pyproject.toml` | Define Python dependencies: fastapi, uvicorn, docling, ollama, rq, redis, pydantic-settings, python-multipart | Done |
+| 3 | Create `.env.example` | Template env file with OLLAMA_MODEL, OLLAMA_BASE_URL, REDIS_URL, UPLOAD_DIR, RESULTS_DIR | Done |
+| 4 | Create `config.py` | Load all settings from env vars using pydantic-settings | Done |
+| 5 | Create `main.py` | FastAPI app with lifespan, health check `GET /health`, and CORS middleware (allows React dev server on port 5173 to call API on port 8000) | Done |
+| 6 | Create `job_store.py` | SQLite job table: id, status, file_path, result_path, error, created_at, updated_at | Done |
+| 7 | Create `file_store.py` | Save uploaded files and result JSONs to local disk | Done |
+| 8 | Create upload endpoint | `POST /upload` — validate MIME type (PDF/JPG/PNG), save file, create job, enqueue task | Done |
+| 9 | Create RQ worker skeleton | Worker that picks up jobs, logs job ID, marks complete — no pipeline yet | Done |
+| 10 | Create `docker-compose.yml` | **3 services only: api, worker, redis** — Ollama stays native on host (already installed with model). Worker calls Ollama at `http://host.docker.internal:11434` via `OLLAMA_BASE_URL` env var | Done |
 
 ---
 
@@ -28,9 +28,9 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 11 | Create `detector.py` | Detect if PDF has a native text layer (digital) vs is image-only (scanned) | Pending |
-| 12 | Create `docling_processor.py` — digital path | Use Docling to extract text from digital PDFs and output clean Markdown | Pending |
-| 13 | Wire Docling into worker | Worker calls detector → docling_processor, logs Markdown output for manual review | Pending |
+| 11 | Create `detector.py` | Detect if PDF has a native text layer (digital) vs is image-only (scanned) | Done |
+| 12 | Create `docling_processor.py` — digital path | Use Docling to extract text from digital PDFs and output clean Markdown | Done |
+| 13 | Wire Docling into worker | Worker calls detector → docling_processor, logs Markdown output for manual review | Done |
 
 ---
 

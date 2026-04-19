@@ -1,0 +1,19 @@
+# IDE / editor metadata
+.cursor/
+.obsidian/
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Runtime data — never commit uploads, results, or the live DB
+financial-extractor/uploads/
+financial-extractor/results/
+financial-extractor/jobs.db
+
+# OS
+.DS_Store
