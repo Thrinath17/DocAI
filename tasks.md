@@ -38,9 +38,9 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 14 | Extend `docling_processor.py` — scanned path | Enable OCR + TableFormer path in Docling for scanned PDFs and image files | Pending |
-| 15 | Test both Docling paths | Run a digital PDF and a scanned PDF through each path, inspect Markdown quality | Pending |
-| 15a | Get sample test fixtures | Download 2–3 real financial statement PDFs (balance sheet, income statement) — one digital, one scanned — to use throughout testing in tasks 15, 20, and 23 | Pending |
+| 14 | Extend `docling_processor.py` — scanned path | Enable OCR + TableFormer path in Docling for scanned PDFs and image files | Done |
+| 15 | Test both Docling paths | Run a digital PDF and a scanned PDF through each path, inspect Markdown quality | Done |
+| 15a | Get sample test fixtures | Download 2–3 real financial statement PDFs (balance sheet, income statement) — one digital, one scanned — to use throughout testing in tasks 15, 20, and 23 | Done |
 
 ---
 
@@ -49,10 +49,10 @@
 | # | Task | Description | Status |
 |---|------|-------------|--------|
 | 16 | ~~Pull Ollama model~~ | ~~Pull `qwen3.5:4b` via Ollama~~ | Done |
-| 17 | Create extraction prompt | Write `prompts/financial_extraction.txt` — instruct LLM to extract all data as nested JSON | Pending |
-| 18 | Create `ollama_extractor.py` | Call Ollama REST API with Markdown + prompt, parse JSON response with error recovery | Pending |
-| 19 | Wire Ollama into worker | Full pipeline: detector → docling → ollama → save result | Pending |
-| 20 | Iterate on prompt quality | Test with sample financial documents, tune prompt until extracted JSON is accurate | Pending |
+| 17 | Create extraction prompt | Write `prompts/financial_extraction.txt` — instruct LLM to extract all data as nested JSON | Done |
+| 18 | Create `ollama_extractor.py` | Call Ollama REST API with Markdown + prompt, parse JSON response with error recovery | Done |
+| 19 | Wire Ollama into worker | Full pipeline: detector → docling → ollama → save result | Done |
+| 20 | Iterate on prompt quality | Test with sample financial documents, tune prompt until extracted JSON is accurate | Done |
 
 ---
 

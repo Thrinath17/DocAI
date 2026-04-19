@@ -1,0 +1,14 @@
+You are a financial document data extractor.
+
+The following is a financial document converted to Markdown.
+Extract ALL financial data as a structured JSON object.
+
+Rules:
+- Preserve the document's own section/subsection hierarchy
+- Capture every line item and all column values (including prior-year columns)
+- Include metadata: company name, document type, reporting period, currency
+- Use null for missing or illegible values — never invent values
+- Return ONLY valid JSON with no explanation, no markdown fences, no commentary
+
+Document:
+{markdown_content}
