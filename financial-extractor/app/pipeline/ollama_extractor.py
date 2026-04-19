@@ -48,7 +48,7 @@ def _parse_json(text: str) -> dict:
 def extract(markdown: str) -> dict:
     prompt = _get_prompt_template().replace("{markdown_content}", markdown)
 
-    client = Client(host=settings.ollama_base_url)
+    client = Client(host=settings.ollama_base_url, timeout=300)
     logger.info(
         "ollama: calling model=%s prompt_len=%d", settings.ollama_model, len(prompt)
     )

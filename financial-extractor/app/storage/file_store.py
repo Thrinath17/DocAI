@@ -5,11 +5,11 @@ from pathlib import Path
 from app.storage.paths import upload_path, result_path
 
 
-async def save_upload(job_id: str, original_filename: str, file_obj) -> str:
+async def save_upload(job_id: str, original_filename: str, content: bytes) -> str:
     suffix = Path(original_filename).suffix.lower()
     dest = upload_path(f"{job_id}{suffix}")
     with open(dest, "wb") as out:
-        shutil.copyfileobj(file_obj, out)
+        out.write(content)
     return dest
 
 

@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from app.config import settings
@@ -59,6 +59,21 @@ def get_job(job_id: str) -> Optional[JobRecord]:
     if row is None:
         return None
     return JobRecord(**dict(row))
+
+
+def reset_stale_jobs(timeout_minutes: int = 15) -> int:
+    """Mark any job stuck in 'running' for longer than timeout_minutes as failed.
+
+    Guards against workers that crash without updating the DB status.
+    """
+    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=timeout_minutes)).isoformat()
+    with _db() as conn:
+        result = conn.execute(
+            "UPDATE jobs SET status = 'failed', error = ?, updated_at = ? "
+            "WHERE status = 'running' AND updated_at < ?",
+            ("Job timed out — worker crashed or was restarted.", _now(), cutoff),
+        )
+    return result.rowcount
 
 
 def update_job(

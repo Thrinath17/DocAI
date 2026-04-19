@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.queue.job_store import init_db
+from app.queue.job_store import init_db, reset_stale_jobs
 from app.storage.paths import ensure_dirs
 from app.api.upload import router as upload_router
 from app.api.jobs import router as jobs_router
@@ -18,6 +18,11 @@ async def lifespan(app: FastAPI):
     # Startup
     ensure_dirs()
     init_db()
+    reset_count = reset_stale_jobs(timeout_minutes=15)
+    if reset_count:
+        logging.getLogger(__name__).warning(
+            "Reset %d stale job(s) left in 'running' state from a previous worker crash.", reset_count
+        )
     yield
     # Shutdown — nothing to tear down yet
 

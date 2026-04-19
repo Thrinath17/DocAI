@@ -70,11 +70,11 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 24 | Error handling | Handle corrupt file, unsupported MIME type, Ollama timeout, blank pages gracefully | Pending |
-| 25 | Unit tests | Tests for detector, docling_processor, ollama_extractor | Pending |
-| 26 | Integration tests | End-to-end API flow: upload → poll → result for digital PDF, scanned PDF, image | Pending |
-| 27 | Docker Compose end-to-end | Verify all 4 services start and full pipeline works inside Docker | Pending |
-| 28 | Write README | Setup instructions, how to run locally, how to run with Docker | Pending |
+| 24 | Error handling | Handle corrupt file, unsupported MIME type, Ollama timeout, blank pages gracefully | Done |
+| 25 | Unit tests | Tests for detector, docling_processor, ollama_extractor | Done |
+| 26 | Integration tests | End-to-end API flow: upload → poll → result for digital PDF, scanned PDF, image | Done |
+| 27 | Docker Compose end-to-end | Verify all 4 services start and full pipeline works inside Docker | Done |
+| 28 | Write README | Setup instructions, how to run locally, how to run with Docker | Done |
 
 ---
 

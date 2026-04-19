@@ -67,4 +67,10 @@ def to_markdown(file_path: str, use_ocr: bool) -> str:
         len(markdown),
         result.status.name,
     )
+
+    if not markdown.strip():
+        raise RuntimeError(
+            f"Docling produced no text for {path.name}. The file may be blank or corrupt."
+        )
+
     return markdown

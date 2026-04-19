@@ -26,9 +26,19 @@ async def upload_document(file: UploadFile = File(...)):
             detail=f"Unsupported file type '{file.content_type}'. Allowed: PDF, JPEG, PNG.",
         )
 
+    content = await file.read()
+    if len(content) == 0:
+        raise HTTPException(status_code=422, detail="Uploaded file is empty.")
+    if len(content) > settings.max_upload_bytes:
+        max_mb = settings.max_upload_bytes // (1024 * 1024)
+        raise HTTPException(
+            status_code=413,
+            detail=f"File exceeds the {max_mb} MB size limit.",
+        )
+
     ensure_dirs()
     job_id = str(uuid.uuid4())
-    file_path = await save_upload(job_id, file.filename or f"{job_id}.bin", file.file)
+    file_path = await save_upload(job_id, file.filename or f"{job_id}.bin", content)
 
     job = create_job(job_id, file_path)
 
