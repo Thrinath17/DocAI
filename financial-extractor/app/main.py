@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.queue.job_store import init_db
 from app.storage.paths import ensure_dirs
 from app.api.upload import router as upload_router
+from app.api.jobs import router as jobs_router
+from app.api.results import router as results_router
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,6 +33,8 @@ app.add_middleware(
 )
 
 app.include_router(upload_router)
+app.include_router(jobs_router)
+app.include_router(results_router)
 
 
 @app.get("/health")

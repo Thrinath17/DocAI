@@ -69,8 +69,8 @@ Code goes in: `~/Projects/DocAI/financial-extractor/`
 ```bash
 cd ~/Projects/DocAI/financial-extractor
 source .venv/bin/activate
-uvicorn app.main:app --reload --port 8000   # API
-rq worker extraction                         # Worker (separate terminal)
+uvicorn app.main:app --reload --port 8000                                    # API
+OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES rq worker extraction --url redis://localhost:6379/0  # Worker (separate terminal)
 ```
 
 Ollama must be running (`ollama serve` or via the Ollama menu bar app).

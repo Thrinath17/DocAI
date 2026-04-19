@@ -60,9 +60,9 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 21 | Create jobs endpoint | `GET /jobs/{id}` — return job status and progress from SQLite | Pending |
-| 22 | Create results endpoint | `GET /results/{id}` — return full extraction JSON from file system | Pending |
-| 23 | End-to-end test | Upload a real balance sheet PDF → poll status → fetch result → verify JSON manually | Pending |
+| 21 | Create jobs endpoint | `GET /jobs/{id}` — return job status and progress from SQLite | Done |
+| 22 | Create results endpoint | `GET /results/{id}` — return full extraction JSON from file system | Done |
+| 23 | End-to-end test | Upload a real balance sheet PDF → poll status → fetch result → verify JSON manually | Done |
 
 ---
 
