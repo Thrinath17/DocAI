@@ -149,6 +149,60 @@ def test_get_result_not_ready(client):
     assert resp.status_code == 202
 
 
+def test_list_jobs_returns_list_shape(client):
+    resp = client.get("/jobs")
+    assert resp.status_code == 200
+    jobs = resp.json()
+    assert isinstance(jobs, list)
+    if jobs:
+        assert {"job_id", "status", "created_at", "updated_at"}.issubset(jobs[0].keys())
+
+
+def test_list_jobs_count_increases(client):
+    before = len(client.get("/jobs").json())
+    pdf_path = FIXTURES / "xyz-balance-sheet-digital.pdf"
+    for _ in range(3):
+        with open(pdf_path, "rb") as f:
+            client.post("/upload", files={"file": ("test.pdf", f, "application/pdf")})
+    jobs = client.get("/jobs").json()
+    assert len(jobs) == before + 3
+    # newest first
+    assert jobs[0]["created_at"] >= jobs[1]["created_at"]
+
+
+def test_reprocess_resets_status(client):
+    pdf_path = FIXTURES / "xyz-balance-sheet-digital.pdf"
+    with open(pdf_path, "rb") as f:
+        upload_resp = client.post("/upload", files={"file": ("test.pdf", f, "application/pdf")})
+    job_id = upload_resp.json()["job_id"]
+
+    # Simulate a failed job
+    from app.queue.job_store import update_job
+    from app.models.job import JobStatus
+    update_job(job_id, JobStatus.failed, error="something went wrong")
+
+    assert client.get(f"/jobs/{job_id}").json()["status"] == "failed"
+
+    with patch("app.api.jobs.Redis"), patch("app.api.jobs.Queue") as mock_q_cls:
+        mock_queue = MagicMock()
+        mock_q_cls.return_value = mock_queue
+        resp = client.post(f"/jobs/{job_id}/reprocess")
+
+    assert resp.status_code == 202
+    assert resp.json()["status"] == "queued"
+    mock_queue.enqueue.assert_called_once_with(
+        "app.queue.worker.process_job", job_id, job_timeout=600
+    )
+    assert client.get(f"/jobs/{job_id}").json()["status"] == "queued"
+    assert client.get(f"/jobs/{job_id}").json()["error"] is None
+
+
+def test_reprocess_not_found(client):
+    with patch("app.api.jobs.Redis"), patch("app.api.jobs.Queue"):
+        resp = client.post("/jobs/nonexistent-id/reprocess")
+    assert resp.status_code == 404
+
+
 def test_get_result_completed(client, tmp_path):
     """Simulate a completed job by writing a result file and updating the DB."""
     pdf_path = FIXTURES / "xyz-balance-sheet-digital.pdf"

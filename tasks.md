@@ -78,14 +78,25 @@
 
 ---
 
+## Phase 6b — Backend Additions
+
+| # | Task | Description | Status |
+|---|------|-------------|--------|
+| 28a | Add reprocess endpoint | `POST /jobs/{id}/reprocess` — reset status to queued, clear result_path + error, re-enqueue `process_job(job_id)` in RQ. File: `app/api/jobs.py` | Done |
+| 28b | Add list jobs endpoint | `GET /jobs` — return all jobs from SQLite ordered by created_at DESC. Useful for testing and future admin use. File: `app/api/jobs.py` | Done |
+
+---
+
 ## Phase 7 — Frontend UI
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
 | 29 | Scaffold React app | Vite + TypeScript inside `financial-extractor/ui/` | Pending |
-| 30 | Upload page | Drag-and-drop file upload, calls `POST /upload`, shows job ID | Pending |
-| 31 | Status polling | Polls `GET /jobs/:id` every 3s, shows progress indicator | Pending |
-| 32 | Results view | Renders extracted JSON as a readable tree, not raw text | Pending |
-| 33 | Download button | Download result as JSON or CSV | Pending |
-| 34 | Error states | Clear error messages for failed jobs or unsupported files | Pending |
-| 35 | Serve from FastAPI | FastAPI serves the built React app as static files — no separate server needed | Pending |
+| 30 | Drop zone (multi-file) | Drag-and-drop multiple files, client-side MIME/size validation, staged file list with remove, uploads each file via `POST /upload` in parallel | Pending |
+| 31 | Jobs table | Table with columns: checkbox, filename, status badge, metadata, accuracy rating, view button, download button, actions menu. Rows persisted in localStorage. | Pending |
+| 32 | Status polling | Each row polls `GET /jobs/:id` every 3s, stops on terminal state. Metadata populates on completion. | Pending |
+| 33 | View modal | Modal overlay with collapsible section tree, metadata header, footer buttons: Reprocess / Download / Close. Esc to close. | Pending |
+| 34 | Download options | Per-row and bulk: JSON download, CSV download (depth-first flatten), bulk ZIP download, bulk merged CSV with source_file column | Pending |
+| 35 | Bulk actions | Multi-select rows, bulk action bar: Download ZIP, Merged CSV, Reprocess, Clear from list | Pending |
+| 36 | Error states | Failed row shows error in status cell. Upload errors shown inline in drop zone. Reprocess resets failed jobs. | Pending |
+| 37 | Serve from FastAPI | FastAPI serves the built React app as static files from `ui/dist/` — no separate server needed | Pending |

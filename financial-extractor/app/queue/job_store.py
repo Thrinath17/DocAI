@@ -76,6 +76,14 @@ def reset_stale_jobs(timeout_minutes: int = 15) -> int:
     return result.rowcount
 
 
+def list_jobs() -> list[JobRecord]:
+    with _db() as conn:
+        rows = conn.execute(
+            "SELECT * FROM jobs ORDER BY created_at DESC"
+        ).fetchall()
+    return [JobRecord(**dict(row)) for row in rows]
+
+
 def update_job(
     job_id: str,
     status: JobStatus,
