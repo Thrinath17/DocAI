@@ -91,12 +91,12 @@
 
 | # | Task | Description | Status |
 |---|------|-------------|--------|
-| 29 | Scaffold React app | Vite + TypeScript inside `financial-extractor/ui/` | Pending |
-| 30 | Drop zone (multi-file) | Drag-and-drop multiple files, client-side MIME/size validation, staged file list with remove, uploads each file via `POST /upload` in parallel | Pending |
-| 31 | Jobs table | Table with columns: checkbox, filename, status badge, metadata, accuracy rating, view button, download button, actions menu. Rows persisted in localStorage. | Pending |
-| 32 | Status polling | Each row polls `GET /jobs/:id` every 3s, stops on terminal state. Metadata populates on completion. | Pending |
-| 33 | View modal | Modal overlay with collapsible section tree, metadata header, footer buttons: Reprocess / Download / Close. Esc to close. | Pending |
-| 34 | Download options | Per-row and bulk: JSON download, CSV download (depth-first flatten), bulk ZIP download, bulk merged CSV with source_file column | Pending |
-| 35 | Bulk actions | Multi-select rows, bulk action bar: Download ZIP, Merged CSV, Reprocess, Clear from list | Pending |
-| 36 | Error states | Failed row shows error in status cell. Upload errors shown inline in drop zone. Reprocess resets failed jobs. | Pending |
-| 37 | Serve from FastAPI | FastAPI serves the built React app as static files from `ui/dist/` — no separate server needed | Pending |
+| 29 | Scaffold React app | Vite + TypeScript inside `financial-extractor/ui/` | Done |
+| 30 | Drop zone (multi-file) | Drag-and-drop multiple files, client-side MIME/size validation, staged file list with remove, uploads each file via `POST /upload` in parallel | Done |
+| 31 | Jobs table | Table with columns: checkbox, filename, status badge, metadata, accuracy rating, view button, download button, actions menu. Rows persisted in localStorage. | Done |
+| 32 | Status polling | Each row polls `GET /jobs/:id` every 3s, stops on terminal state. Metadata populates on completion. | Done |
+| 33 | View modal | Modal overlay with collapsible section tree, metadata header, footer buttons: Reprocess / Download / Close. Esc to close. | Done |
+| 34 | Download options | Per-row and bulk: JSON download, CSV download (depth-first flatten), bulk ZIP download, bulk merged CSV with source_file column | Done |
+| 35 | Bulk actions | Multi-select rows, bulk action bar: Download ZIP, Merged CSV, Reprocess, Clear from list | Done |
+| 36 | Error states | Failed row shows error in status cell. Upload errors shown inline in drop zone. Reprocess resets failed jobs. | Done |
+| 37 | Serve from FastAPI | FastAPI serves the built React app as static files from `ui/dist/` — no separate server needed | Done |

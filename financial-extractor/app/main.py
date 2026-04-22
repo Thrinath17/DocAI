@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.queue.job_store import init_db, reset_stale_jobs
 from app.storage.paths import ensure_dirs
@@ -31,7 +33,6 @@ app = FastAPI(title="Financial Extractor", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    # Allow the React dev server (Phase 7) to call the API
     allow_origins=["http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
@@ -45,3 +46,8 @@ app.include_router(results_router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+_ui_dist = os.path.join(os.path.dirname(__file__), "..", "ui", "dist")
+if os.path.isdir(_ui_dist):
+    app.mount("/", StaticFiles(directory=_ui_dist, html=True), name="ui")
