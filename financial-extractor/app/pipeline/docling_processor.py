@@ -1,15 +1,12 @@
-"""
-Convert a document file to clean Markdown using Docling.
-
-Digital PDFs:  do_ocr=False  — fast text extraction + TableFormer
-Scanned PDFs / images:  do_ocr=True  — EasyOCR + TableFormer
-"""
-
 import logging
 from pathlib import Path
 
 from docling.datamodel.base_models import InputFormat
-from docling.datamodel.pipeline_options import PdfPipelineOptions
+from docling.datamodel.pipeline_options import (
+    PdfPipelineOptions,
+    AcceleratorOptions,
+    AcceleratorDevice,
+)
 from docling.document_converter import DocumentConverter, PdfFormatOption
 
 logger = logging.getLogger(__name__)
@@ -19,6 +16,10 @@ def _make_converter(use_ocr: bool) -> DocumentConverter:
     opts = PdfPipelineOptions()
     opts.do_ocr = use_ocr
     opts.do_table_structure = True  # TableFormer — critical for balance sheets
+    opts.accelerator_options = AcceleratorOptions(
+        num_threads=4,               # parallel page processing on CPU
+        device=AcceleratorDevice.AUTO,  # MPS on Apple Silicon, CUDA on Nvidia, CPU otherwise
+    )
     return DocumentConverter(
         format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)}
     )

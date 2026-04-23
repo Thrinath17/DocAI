@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from app.pipeline.docling_processor import to_markdown
+from app.pipeline.docling_processor import to_markdown, _make_converter
 
 
 def _make_mock_result(status_name: str, markdown: str):
@@ -64,3 +64,16 @@ def test_to_markdown_ocr_path(tmp_path):
         result = to_markdown(str(f), use_ocr=True)
 
     assert "44,334" in result
+
+
+def test_make_converter_passes_accelerator_options():
+    mock_accel_cls = MagicMock(return_value=MagicMock())
+
+    with patch("app.pipeline.docling_processor.AcceleratorOptions", mock_accel_cls), \
+         patch("app.pipeline.docling_processor.AcceleratorDevice", MagicMock()), \
+         patch("app.pipeline.docling_processor.DocumentConverter"):
+        _make_converter(use_ocr=False)
+
+    mock_accel_cls.assert_called_once()
+    call_kwargs = mock_accel_cls.call_args.kwargs
+    assert call_kwargs.get("num_threads", 0) >= 4
