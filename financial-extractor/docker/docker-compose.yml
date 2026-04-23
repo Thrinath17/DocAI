@@ -1,3 +1,8 @@
+# To run multiple workers for parallel job processing:
+#   docker compose -f docker/docker-compose.yml up --scale worker=2
+#
+# Each worker instance shares the uploads/, results/, and jobs.db volumes.
+
 services:
   redis:
     image: redis:7-alpine
@@ -25,6 +30,7 @@ services:
       - ../uploads:/app/uploads
       - ../results:/app/results
       - ../jobs.db:/app/jobs.db
+      - ../ui/dist:/app/ui/dist:ro
     depends_on:
       redis:
         condition: service_healthy
