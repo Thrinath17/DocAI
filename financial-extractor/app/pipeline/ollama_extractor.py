@@ -20,6 +20,17 @@ def _get_prompt_template() -> str:
     return _prompt_template
 
 
+def _truncate_markdown(markdown: str, max_chars: int) -> str:
+    if len(markdown) <= max_chars:
+        return markdown
+    logger.warning(
+        "Markdown length %d exceeds max_markdown_chars=%d — truncating. "
+        "Raise MAX_MARKDOWN_CHARS in .env if extraction is missing data.",
+        len(markdown), max_chars,
+    )
+    return markdown[:max_chars] + "\n\n[TRUNCATED — document exceeded size limit]"
+
+
 def _parse_json(text: str) -> dict:
     # qwen3 models emit <think>...</think> before the answer — strip it
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
@@ -46,11 +57,14 @@ def _parse_json(text: str) -> dict:
 
 
 def extract(markdown: str) -> dict:
+    markdown = _truncate_markdown(markdown, settings.max_markdown_chars)
     prompt = _get_prompt_template().replace("{markdown_content}", markdown)
 
     client = Client(host=settings.ollama_base_url, timeout=300)
     logger.info(
-        "ollama: calling model=%s prompt_len=%d", settings.ollama_model, len(prompt)
+        "ollama: model=%s prompt_len=%d num_ctx=%d num_predict=%d",
+        settings.ollama_model, len(prompt),
+        settings.ollama_num_ctx, settings.ollama_num_predict,
     )
 
     response = client.generate(
@@ -58,7 +72,11 @@ def extract(markdown: str) -> dict:
         prompt=prompt,
         stream=False,
         think=False,
-        options={"temperature": 0},
+        options={
+            "temperature": 0,
+            "num_ctx": settings.ollama_num_ctx,
+            "num_predict": settings.ollama_num_predict,
+        },
     )
 
     raw = response.response
